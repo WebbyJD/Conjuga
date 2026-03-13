@@ -127,7 +127,6 @@ class Conjuga extends JFrame implements ActionListener{
 
                     for (int i = 0; i < Number_At_Line_End - Choice_Index; i ++){
                         int Index_Of_End_Bracket = Current_Line.indexOf(']');
-                        System.out.println(Current_Line);
                         if (Index_Of_End_Bracket == -1) break;
                         Choice_Sub_List.add(Current_Line.substring(Current_Line.indexOf('[') + 1, Index_Of_End_Bracket));
                         Current_Line = Current_Line.substring(Index_Of_End_Bracket + 1);
