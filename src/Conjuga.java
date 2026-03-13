@@ -73,7 +73,7 @@ class Conjuga extends JFrame implements ActionListener{
     }
 
     public static ArrayList<LinkedList<Integer>> readInRules(String File_Name){
-        File Rules_Listefile = new File("Choices/" + File_Name + ".Rules_Listes");
+        File Rules_Listefile = new File("Choices/" + File_Name + ".rules");
         ArrayList<LinkedList<Integer>> Rules_Lists = new ArrayList<>();
         try (Scanner reader = new Scanner(Rules_Listefile)){
             while (reader.hasNextLine()){
