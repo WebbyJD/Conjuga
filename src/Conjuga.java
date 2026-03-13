@@ -49,8 +49,8 @@ class Conjuga extends JFrame implements ActionListener{
 
     public void actionPerformed(ActionEvent e)
     {
-        String s = e.getActionCommand();
-        if (s.equals("Run")) {
+        String Action = e.getActionCommand();
+        if (Action.equals("Run")) {
             Output_String = Run(Choice_List, Rules_List, Categories);
             Text_Pane.setText(Output_String);
         }
@@ -62,8 +62,13 @@ class Conjuga extends JFrame implements ActionListener{
 
         for (int i = 0; i < Choice_List.size(); i ++){
             LinkedList<String> Choice_Actual = Choice_List.get(i);
-            if (Choice > -1 && Rules_Lists.size() >= i && Rules_Lists.get(i - 1).get(0) == Choice){
-                Choice_Actual.remove((int)Rules_Lists.get(i - 1).get(1));
+            if (Rules_Lists.size() >= i && Choice > -1 ) {
+                for (int j = 0; j < Rules_Lists.get(i - 1).size(); j += 2) {
+                    if (Rules_Lists.get(i - 1).get(j) == Choice) {
+                        Choice_Actual.remove((int) Rules_Lists.get(i - 1).get(j + 1));
+                        //System.out.println(Choice_Actual.remove((int) Rules_Lists.get(i - 1).get(j + 1)));
+                    }
+                }
             }
             Choice = (int) (Math.random() * Choice_Actual.size());
             Full_Out.append(Categories[i]).append(" is ").append(Choice_Actual.get(Choice)).append("\n");
@@ -73,14 +78,22 @@ class Conjuga extends JFrame implements ActionListener{
     }
 
     public static ArrayList<LinkedList<Integer>> readInRules(String File_Name){
-        File Rules_Listefile = new File("Choices/" + File_Name + ".rules");
+        File Rules_Listefile = new File("Option_Files/" + File_Name + ".rules");
         ArrayList<LinkedList<Integer>> Rules_Lists = new ArrayList<>();
         try (Scanner reader = new Scanner(Rules_Listefile)){
             while (reader.hasNextLine()){
                 LinkedList<Integer> Rules_Sub_List = new LinkedList<>();
-                String Rules_Parsing_String = reader.nextLine();
-                Rules_Sub_List.add(Integer.parseInt(Rules_Parsing_String.charAt(0) + ""));
-                Rules_Sub_List.add(Integer.parseInt(Rules_Parsing_String.charAt(2) + ""));
+                String Current_Line = reader.nextLine();
+                while (true) {
+                    int Index_Of_Bracket_Open = Current_Line.indexOf('[');
+                    int Index_Of_Bracket_Closed = Current_Line.indexOf(']');
+                    int Index_Of_Brace_Open = Current_Line.indexOf('{');
+                    int Index_Of_Brace_Closed = Current_Line.indexOf('}');
+                    Rules_Sub_List.add(Integer.parseInt(Current_Line.substring(Index_Of_Bracket_Open + 1, Index_Of_Bracket_Closed)));
+                    Rules_Sub_List.add(Integer.parseInt(Current_Line.substring(Index_Of_Brace_Open + 1, Index_Of_Brace_Closed)));
+                    if (Index_Of_Brace_Closed + 2 < Current_Line.length()) Current_Line = Current_Line.substring(Index_Of_Brace_Closed + 1);
+                    else break;
+                }
                 Rules_Lists.add(Rules_Sub_List);
             }
         } catch (FileNotFoundException e){
@@ -92,7 +105,7 @@ class Conjuga extends JFrame implements ActionListener{
 
     public static ArrayList<LinkedList<String>> readInChoices(String File_Name){
         ArrayList<LinkedList<String>> Choice_List = new ArrayList<>();
-        File choice = new File("Choices/" + File_Name + ".choice");
+        File choice = new File("Option_Files/" + File_Name + ".choice");
 
         try (Scanner Reader = new Scanner(choice)) {
                 int Choice_Index = 0;
@@ -130,7 +143,7 @@ class Conjuga extends JFrame implements ActionListener{
 
     public static String[] readInCategories(String File_Name, int Categories_Length){
         String[] Categories = new String[Categories_Length];
-        File choice = new File("Choices/" + File_Name + ".categories");
+        File choice = new File("Option_Files/" + File_Name + ".categories");
 
         try (Scanner Reader = new Scanner(choice)) {
             int Category_Index = 0;
