@@ -1,10 +1,12 @@
 Thank you for using:
+~~~
 #     ____  ____  _         _  _     _____ ____ 
 #    /   _\/  _ \/ \  /|   / |/ \ /\/  __//  _ \
 #    |  /  | / \|| |\ ||   | || | ||| |  _| / \|
 #    |  \__| \_/|| | \||/\_| || \_/|| |_//| |-||
 #    \____/\____/\_/  \|\____/\____/\____\\_/ \|
-#                                               
+#
+~~~                                   
                  (CONJUGA)
       Ascii art from https://patorjk.com
 Created(Originally) by Declan and Brendan Webb
